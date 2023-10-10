@@ -43,19 +43,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      {!isLoading ? (
-        <div className="padding">
-          <Header />
-          <LeftNavbar />
-          {!isAuth ? (
-            <div className="center-div">{notAuthRoutes}</div>
-          ) : (
-            <div>{AuthRoutes}</div>
-          )}
-        </div>
-      ) : (
-        <Loader visible={true} />
-      )}
+      <div className="padding">
+        <Header />
+        <LeftNavbar />
+        {!isAuth ? (
+          <div className="center-div">{notAuthRoutes}</div>
+        ) : (
+          <div>{AuthRoutes}</div>
+        )}
+      </div>
+      )
     </BrowserRouter>
   );
 }

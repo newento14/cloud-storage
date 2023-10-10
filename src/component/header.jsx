@@ -5,7 +5,7 @@ import MyButton from "../UI/button/MyButton";
 import "../styles/header.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LOGOUT } from "../reducers/reducer";
+import { LOGOUT } from "../reducers/authReducer";
 
 const Header = () => {
   const isAuth = useSelector((x) => x.isAuth);

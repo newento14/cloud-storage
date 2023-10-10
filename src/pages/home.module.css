@@ -28,3 +28,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
+.backIcon {
+  height: 16px;
+  width: 16px;
+  margin-right: 5px;
+}

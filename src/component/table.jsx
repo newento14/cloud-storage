@@ -3,16 +3,7 @@ import Api from "../Api/user";
 import "../styles/table.css";
 import TableElement from "./tableElement";
 
-const Table = () => {
-  const [files, setFiles] = useState([{}]);
-  async function getFiles() {
-    setFiles(await Api.GetFilesByUserid());
-  }
-
-  useEffect(() => {
-    getFiles();
-  }, []);
-  console.log(files);
+const Table = ({ files }) => {
   return (
     <div>
       <div className="table-header">
@@ -22,7 +13,7 @@ const Table = () => {
         <div className="table-date">Date</div>
       </div>
       {files.map((x) => (
-        <TableElement key={x.name} file={x} />
+        <TableElement key={x.id} file={x} />
       ))}
     </div>
   );

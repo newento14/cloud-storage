@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGOUT, SET } from "../reducers/reducer";
+import { LOGOUT, SET } from "../reducers/authReducer";
 
 export default class Api {
   static async Registration(form) {
@@ -8,7 +8,6 @@ export default class Api {
         "https://localhost:7189/api/auth/registration",
         form
       );
-      console.log(response);
     } catch (e) {
       alert(e);
     }
@@ -24,7 +23,6 @@ export default class Api {
         dispatch({ type: SET, user: response.data.user });
         localStorage.setItem("token", response.data.token);
       } catch (e) {
-        console.log("login");
         dispatch({ type: LOGOUT });
       }
     };
@@ -45,7 +43,6 @@ export default class Api {
         dispatch({ type: SET, user: response.data.user });
         localStorage.setItem("token", response.data.token);
       } catch (e) {
-        console.log("auth");
         dispatch({ type: LOGOUT });
       }
     };
@@ -62,8 +59,25 @@ export default class Api {
           },
         }
       );
+      return response.data;
     } catch (e) {
       return false;
+    }
+  }
+
+  static async GetFiles(path) {
+    try {
+      const response = await axios.get(
+        "https://localhost:7189/api/files/getFiles",
+        path,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } catch (e) {
+      alert(e);
     }
   }
 
@@ -78,6 +92,20 @@ export default class Api {
         }
       );
       return response.data;
+    } catch (e) {}
+  }
+
+  static async SetStarred(id, state) {
+    try {
+      const response = await axios.post(
+        "https://localhost:7189/api/files/setStarred",
+        { id: id, state: state },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
     } catch (e) {}
   }
 }
