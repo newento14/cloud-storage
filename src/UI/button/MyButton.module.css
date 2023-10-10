@@ -1,0 +1,20 @@
+.btn {
+  display: flex;
+  align-items: center;
+}
+
+.myButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% + 20px);
+  padding: 5px 13px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icon {
+  height: 20px;
+  width: 20px;
+}

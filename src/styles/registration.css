@@ -1,0 +1,17 @@
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 500px;
+  /* margin-top: 300px;
+  margin-left: 550px; */
+  padding: 13px;
+  border-radius: 20px;
+  height: 200px;
+  background-color: rgb(233, 232, 232);
+}
+
+MyInput {
+  border: none;
+  border-bottom: 2px solid gray;
+}

@@ -1,0 +1,30 @@
+.topDiv {
+  margin: 15px 25px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 20px;
+}
+
+.drapAndDrop {
+  display: flex;
+  border: 2px dashed gray;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontalSplitter {
+  margin-top: 20px;
+  border: 2px solid gray;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
