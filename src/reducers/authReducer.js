@@ -1,12 +1,13 @@
 export const SET = "SET";
 export const LOGOUT = "LOGOUT";
+export const ADD_STORAGE_USED = "ADD_STORAGE_USED";
 
 const defaultState = {
   isAuth: false,
   user: {},
 };
 
-const reducer = (state = defaultState, action) => {
+const authReducer = (state = defaultState, action) => {
   switch (action.type) {
     case SET:
       return {
@@ -22,9 +23,18 @@ const reducer = (state = defaultState, action) => {
         user: [],
       };
 
+    case ADD_STORAGE_USED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          storageUsed: state.user.storageUsed + action.size,
+        },
+      };
+
     default:
       return state;
   }
 };
 
-export default reducer;
+export default authReducer;

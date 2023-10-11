@@ -7,12 +7,11 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Registration from "./component/registration";
 import Login from "./component/login";
-import Loader from "./UI/loader/Loader";
-import Api from "./Api/user";
+import Api from "./api/user";
 import Home from "./pages/home";
 
 function App() {
-  const isAuth = useSelector((x) => x.isAuth);
+  const isAuth = useSelector((x) => x.auth.isAuth);
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);

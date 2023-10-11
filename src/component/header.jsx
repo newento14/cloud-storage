@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT } from "../reducers/authReducer";
 
 const Header = () => {
-  const isAuth = useSelector((x) => x.isAuth);
+  const isAuth = useSelector((x) => x.auth.isAuth);
   const dispatch = useDispatch();
 
   function logOut() {

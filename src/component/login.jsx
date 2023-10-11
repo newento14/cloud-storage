@@ -1,7 +1,7 @@
 import React from "react";
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
-import user from "../Api/user";
+import user from "../api/user";
 import "../styles/registration.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";

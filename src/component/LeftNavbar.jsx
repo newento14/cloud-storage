@@ -1,12 +1,12 @@
 import React from "react";
 import "../styles/navbar.css";
 import ProgressBar from "../UI/progressBar/ProgressBar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const LeftNavbar = () => {
-  const isAuth = useSelector((x) => x.isAuth);
-  const user = useSelector((x) => x.user);
-  //const dispatch = useDispatch();
+  const isAuth = useSelector((x) => x.auth.isAuth);
+  const user = useSelector((x) => x.auth.user);
+  const dispatch = useDispatch();
 
   const progressBarColorList = [
     { bgcolor: "#d62d0b", completed: 80 },
@@ -25,11 +25,11 @@ const LeftNavbar = () => {
   }
 
   function formatBytes(bytes, decimals = 2) {
-    if (!+bytes) return "0 Bytes";
+    if (!+bytes) return "0 B";
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"];
+    const sizes = ["B", "KB", "MB", "GB", "TB"];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 

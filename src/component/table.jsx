@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Api from "../Api/user";
+import React from "react";
 import "../styles/table.css";
 import TableElement from "./tableElement";
+import { useSelector } from "react-redux";
 
-const Table = ({ files }) => {
+const Table = () => {
+  const files = useSelector((x) => x.files.files);
+
   return (
     <div>
       <div className="table-header">

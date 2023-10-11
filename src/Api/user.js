@@ -1,5 +1,6 @@
 import axios from "axios";
-import { LOGOUT, SET } from "../reducers/authReducer";
+import { LOGOUT, SET, ADD_STORAGE_USED } from "../reducers/authReducer";
+import { ADD_FILE } from "../reducers/fileReducer";
 
 export default class Api {
   static async Registration(form) {
@@ -52,7 +53,7 @@ export default class Api {
     try {
       const response = await axios.post(
         "https://localhost:7189/api/files/folder",
-        { path: `${path}` },
+        path,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -61,13 +62,13 @@ export default class Api {
       );
       return response.data;
     } catch (e) {
-      return false;
+      alert(e);
     }
   }
 
   static async GetFiles(path) {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         "https://localhost:7189/api/files/getFiles",
         path,
         {
@@ -76,6 +77,7 @@ export default class Api {
           },
         }
       );
+      return response.data;
     } catch (e) {
       alert(e);
     }
@@ -92,7 +94,9 @@ export default class Api {
         }
       );
       return response.data;
-    } catch (e) {}
+    } catch (e) {
+      alert(e);
+    }
   }
 
   static async SetStarred(id, state) {
@@ -106,6 +110,50 @@ export default class Api {
           },
         }
       );
-    } catch (e) {}
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  static UploadFile(file, pathId, pathName, storageSize, storageUsed) {
+    return async (dispatch) => {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("pathId", pathId);
+        formData.append("pathName", pathName);
+        formData.append("storageSize", storageSize);
+        formData.append("storageUsed", storageUsed);
+        for (const value of formData.values()) {
+          console.log(value);
+        }
+        const response = await axios.post(
+          `https://localhost:7189/api/files/upload`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            // onUploadProgress: (progressEvent) => {
+            //   const totalLength = progressEvent.lengthComputable
+            //     ? progressEvent.total
+            //     : progressEvent.target.getResponseHeader("content-length") ||
+            //       progressEvent.target.getResponseHeader(
+            //         "x-decompressed-content-length"
+            //       );
+            //   console.log("total", totalLength);
+            //   if (totalLength) {
+            //     let progress = Math.round(
+            //       (progressEvent.loaded * 100) / totalLength
+            //     );
+            //     console.log(progress);
+            //   }
+            // },
+          }
+        );
+        dispatch({ type: ADD_FILE, payload: { file: response.data } });
+        dispatch({ type: ADD_STORAGE_USED, size: response.data.size });
+      } catch (e) {}
+    };
   }
 }
