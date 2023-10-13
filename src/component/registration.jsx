@@ -1,7 +1,7 @@
 import React from "react";
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
-import user from "../api/user";
+import Api from "../services/user";
 import "../styles/registration.css";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ const Registration = () => {
   const [form, setForm] = useState({ email: "", password: "" });
 
   async function Submit(e) {
-    await user.Registration(form);
+    await Api.Registration(form);
   }
 
   return (

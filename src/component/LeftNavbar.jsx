@@ -1,12 +1,11 @@
 import React from "react";
 import "../styles/navbar.css";
 import ProgressBar from "../UI/progressBar/ProgressBar";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const LeftNavbar = () => {
   const isAuth = useSelector((x) => x.auth.isAuth);
   const user = useSelector((x) => x.auth.user);
-  const dispatch = useDispatch();
 
   const progressBarColorList = [
     { bgcolor: "#d62d0b", completed: 80 },

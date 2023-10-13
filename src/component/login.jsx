@@ -1,7 +1,7 @@
 import React from "react";
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
-import user from "../api/user";
+import Api from "../services/user";
 import "../styles/registration.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -28,7 +28,7 @@ const Login = () => {
       />
       <MyButton
         onClick={() => {
-          user.Login(form)(dispatch);
+          Api.Login(form)(dispatch);
           navigate("/home");
         }}
       >

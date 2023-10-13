@@ -13,7 +13,7 @@ const authReducer = (state = defaultState, action) => {
       return {
         ...state,
         isAuth: true,
-        user: action.user,
+        user: action.payload.user,
       };
     case LOGOUT:
       localStorage.removeItem("token");
@@ -28,7 +28,7 @@ const authReducer = (state = defaultState, action) => {
         ...state,
         user: {
           ...state.user,
-          storageUsed: state.user.storageUsed + action.size,
+          storageUsed: state.user.storageUsed + action.payload.size,
         },
       };
 

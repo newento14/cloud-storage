@@ -1,7 +1,7 @@
 import React from "react";
-import Api from "../api/user";
+import Api from "../services/user";
 import { useDispatch, useSelector } from "react-redux";
-import uploadIcon from "../icons/upload.png";
+import uploadIcon from "../assets/upload.png";
 import cl from "./uploadButton.module.css";
 
 const UploadButton = () => {

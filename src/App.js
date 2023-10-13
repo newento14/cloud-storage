@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Registration from "./component/registration";
 import Login from "./component/login";
-import Api from "./api/user";
+import Api from "./services/user";
 import Home from "./pages/home";
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="padding">
+      <div className="main">
         <Header />
         <LeftNavbar />
         {!isAuth ? (
@@ -51,7 +51,6 @@ function App() {
           <div>{AuthRoutes}</div>
         )}
       </div>
-      )
     </BrowserRouter>
   );
 }

@@ -1,38 +1,40 @@
-import React, { useState, useEffect, useMemo } from "react";
-import BackIcon from "../icons/back.png";
+import React, { useState, useEffect } from "react";
+import BackIcon from "../assets/back.png";
 import MyButton from "../UI/button/MyButton";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_FILES, SET_CURRENT_DIR } from "../reducers/fileReducer";
+import { SET_CURRENT_DIR } from "../reducers/fileReducer";
 import cl from "./home.module.css";
-import Api from "../api/user";
+import Api from "../services/user";
 import PopUp from "../component/popUp";
 import Table from "../component/table";
 import UploadButton from "../component/uploadButton";
+import FIleUploader from "../component/fileUploader";
+import { SET_UPLOAD_FILES, SET_IS_VISIBLE } from "../reducers/uploadReducer";
 
 const Home = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((x) => x.auth.isAuth);
   const user = useSelector((x) => x.auth.user);
   const files = useSelector((x) => x.files.files);
-  const currentDirPathId = useSelector((x) => x.files.currentDirPathId);
-  const currentDirPathName = useSelector((x) => x.files.currentDirPathName);
+  const pathId = useSelector((x) => x.files.currentDirPathId);
+  const pathName = useSelector((x) => x.files.currentDirPathName);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   function backButton() {
-    if (currentDirPathId !== "") {
+    if (pathId !== "") {
       let resId = "";
       let resName = "";
-      for (let i = currentDirPathId.length - 2; i >= 0; --i) {
-        if (currentDirPathId[i] === "\\") {
-          resId = currentDirPathId.substring(0, i + 1);
+      for (let i = pathId.length - 2; i >= 0; --i) {
+        if (pathId[i] === "\\") {
+          resId = pathId.substring(0, i + 1);
           break;
         }
       }
 
-      for (let i = currentDirPathName.length - 2; i >= 0; --i) {
-        if (currentDirPathName[i] === "\\") {
-          resName = currentDirPathName.substring(0, i + 1);
+      for (let i = pathName.length - 2; i >= 0; --i) {
+        if (pathName[i] === "\\") {
+          resName = pathName.substring(0, i + 1);
           break;
         }
       }
@@ -44,23 +46,53 @@ const Home = () => {
   }
 
   async function getFiles() {
+    (
+      await Api.GetFiles({
+        pathId: `${user.id}\\${pathId}`,
+        pathName: pathName !== "" ? `${user.id}\\${pathName}` : `${user.id}`,
+      })
+    )(dispatch);
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const files = [...event.dataTransfer.files];
+    console.log(files[0]);
+    const newFiles = files.map((file, index) => ({
+      id: index + 1,
+      progress: 0,
+      name: file.name,
+    }));
+    console.log(newFiles);
+    dispatch({ type: SET_IS_VISIBLE, payload: { isVisible: 1 } });
     dispatch({
-      type: SET_FILES,
-      payload: await Api.GetFiles({
-        pathId: `${user.id}\\${currentDirPathId}`,
-        pathName:
-          currentDirPathName !== ""
-            ? `${user.id}\\${currentDirPathName}`
-            : `${user.id}`,
-      }),
+      type: SET_UPLOAD_FILES,
+      payload: { files: newFiles },
     });
+
+    files.map((x, index) => {
+      Api.UploadFile(
+        x,
+        pathId,
+        pathName,
+        user.storageSize,
+        user.storageUsed,
+        newFiles[index].id
+      )(dispatch);
+    });
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   useEffect(() => {
     if (isAuth === true) {
       getFiles();
     }
-  }, [isAuth, currentDirPathId]);
+  }, [isAuth, pathId]);
 
   console.log("home render");
   return (
@@ -83,16 +115,21 @@ const Home = () => {
             </MyButton>
             <PopUp visible={modalVisible} setVisible={setModalVisible} />
           </div>
-          <div className={cl.drapAndDrop}>
+          <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            className={cl.drapAndDrop}
+          >
             <div>
               <p>Drop file here, or click Upload</p>
             </div>
           </div>
           <hr className={cl.horizontalSplitter} />
           <div className="path">
-            <p>\{currentDirPathName}</p>
+            <p>\{pathName}</p>
           </div>
           <Table files={files} />
+          <FIleUploader />
         </div>
       )}
     </div>

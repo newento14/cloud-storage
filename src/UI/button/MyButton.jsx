@@ -1,12 +1,7 @@
 import React from "react";
 import cl from "./MyButton.module.css";
 
-const MyButton = ({ btnColor, textColor, icon, children, ...props }) => {
-  let content;
-  if (icon !== undefined) {
-    content = <img src={icon} className={cl.icon} alt="icon" />;
-  }
-
+const MyButton = ({ btnColor, textColor, children, ...props }) => {
   return (
     <div className={cl.btn}>
       <button
@@ -14,7 +9,6 @@ const MyButton = ({ btnColor, textColor, icon, children, ...props }) => {
         {...props}
         style={{ backgroundColor: btnColor, color: textColor }}
       >
-        {content}
         {children}
       </button>
     </div>

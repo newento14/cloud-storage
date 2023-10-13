@@ -1,0 +1,55 @@
+.uploader {
+  display: none;
+  position: fixed;
+  bottom: 0px;
+  right: 10px;
+  height: 320px;
+  width: 300px;
+  background-color: rgb(241, 241, 241);
+}
+
+.hide {
+  height: 113px;
+}
+
+.visible {
+  display: block;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 15px;
+  background-color: rgb(223, 223, 223);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  height: 100%;
+  row-gap: 13px;
+  overflow-y: auto;
+  padding-bottom: 50px;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  margin-bottom: 5px;
+}
+
+.box {
+  inline-size: 200px;
+  text-overflow: ellipsis;
+  height: 100%;
+}
