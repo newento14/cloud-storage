@@ -38,9 +38,7 @@ const LeftNavbar = () => {
   return (
     <nav className="left-navbar">
       <div className="navbar-top">
-        <p>List</p>
         <p className="selected">All files</p>
-        <p>Private</p>
       </div>
 
       {isAuth && (

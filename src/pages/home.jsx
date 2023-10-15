@@ -99,7 +99,6 @@ const Home = () => {
     <div>
       {isAuth && (
         <div className={cl.topDiv}>
-          <p>Cloud Storage</p>
           <div className={cl.buttons}>
             <MyButton onClick={backButton}>
               <img src={BackIcon} alt="back" className={cl.backIcon} />

@@ -56,16 +56,11 @@ const Header = () => {
           </div>
         ) : (
           <div className="buttons">
-            <MyButton>
-              <Link to="/profile">profile</Link>
-            </MyButton>
             <MyButton onClick={logOut}>
               <Link to="/">logOut</Link>
             </MyButton>
           </div>
         )}
-
-        <MyButton>Premium</MyButton>
 
         {/* <p>{userName}</p> */}
       </div>

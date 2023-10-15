@@ -32,7 +32,7 @@ const TableElement = ({ file }) => {
     }
     setCanClick(false);
 
-    if (checked == false) {
+    if (checked === false) {
       setChecked(true);
       await Api.SetStarred(file.id, true);
     } else {
@@ -86,6 +86,7 @@ const TableElement = ({ file }) => {
       <img
         className="table-icon"
         src={file.type === "dir" ? folderIcon : fileIcon}
+        alt="fileIcon"
       />
       <div className="table-name" onClick={getInButton}>
         {file.name}
@@ -95,6 +96,7 @@ const TableElement = ({ file }) => {
           className="table-star-icon"
           src={checked ? starCheckedIcon : starIcon}
           onClick={starChecked}
+          alt="starIcon"
         />
       </div>
       <div className="table-size">
@@ -145,7 +147,7 @@ const TableElement = ({ file }) => {
               setModalVisible(false);
             }}
           >
-            NO
+            Cancel
           </button>
           <button
             style={{
@@ -157,7 +159,7 @@ const TableElement = ({ file }) => {
             }}
             onClick={deleteHandler}
           >
-            YES
+            Delete
           </button>
         </div>
       </Modal>
