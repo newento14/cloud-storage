@@ -3,7 +3,7 @@ import cl from "./MyInput.module.css";
 
 const MyInput = ({ image, ...props }) => {
   let padding = 15;
-  if (image == true) {
+  if (image === true) {
     padding = 25;
   }
 

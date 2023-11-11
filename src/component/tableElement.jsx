@@ -89,7 +89,7 @@ const TableElement = ({ file }) => {
         alt="fileIcon"
       />
       <div className="table-name" onClick={getInButton}>
-        {file.name}
+        <p style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: 'nowrap'}}>{file.name}</p>
       </div>
       <div className="table-star">
         <img

@@ -29,6 +29,7 @@
 
 .header .right {
   display: flex;
+    align-items: center;
   justify-content: end;
   padding-right: 15px;
   width: 500px;
