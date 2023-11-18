@@ -15,7 +15,7 @@ const HomeNotAuth = () => {
                     <p className={cl.main_text}>Manage your cloud files with out Cloud Service</p>
                     <button onClick={() => navigate('/login')} className={cl.btn}>Get Started</button>
                 </div>
-                <div>
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                     <img className={cl.img} src={hero} alt=""/>
                 </div>
             </div>

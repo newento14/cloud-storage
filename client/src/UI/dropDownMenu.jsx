@@ -7,58 +7,66 @@ import {styled} from '@mui/system';
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {LOGOUT} from "../reducers/authReducer";
-import avatar from '../assets/user.png'
+import { RxAvatar } from "react-icons/rx";
 
 export default function DropDownMenu() {
-    const dispatch = useDispatch();
-    function logOut() {
-        dispatch({ type: LOGOUT });
-    }
+  const dispatch = useDispatch();
 
-    const createHandleMenuClick = (menuItem) => {
-        return () => {
-            console.log(`Clicked on ${menuItem}`);
-        };
+  function logOut() {
+    dispatch({type: LOGOUT});
+  }
+
+  const createHandleMenuClick = (menuItem) => {
+    return () => {
+      console.log(`Clicked on ${menuItem}`);
     };
+  };
 
-    return (
-        <Dropdown>
-            <MenuButton style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: 32, height: 32, borderRadius: 50}}><img style={{width: 32, height: 32}} src={avatar} alt=""/></MenuButton>
-            <Menu slots={{listbox: Listbox}}>
-                <Link to="/"><MenuItem onClick={() => logOut()}>Log out</MenuItem></Link>
-            </Menu>
-        </Dropdown>
-    );
+  return (
+    <Dropdown>
+      <MenuButton style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 32,
+        height: 32,
+        borderRadius: 50
+      }}><RxAvatar color={'red'} /></MenuButton>
+      <Menu slots={{listbox: Listbox}}>
+        <Link to="/"><MenuItem onClick={() => logOut()}>Log out</MenuItem></Link>
+      </Menu>
+    </Dropdown>
+  );
 }
 
 const blue = {
-    50: '#F0F7FF',
-    100: '#C2E0FF',
-    200: '#99CCF3',
-    300: '#66B2FF',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E6',
-    700: '#0059B3',
-    800: '#004C99',
-    900: '#003A75',
+  50: '#F0F7FF',
+  100: '#C2E0FF',
+  200: '#99CCF3',
+  300: '#66B2FF',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E6',
+  700: '#0059B3',
+  800: '#004C99',
+  900: '#003A75',
 };
 
 const grey = {
-    50: '#F3F6F9',
-    100: '#E5EAF2',
-    200: '#DAE2ED',
-    300: '#C7D0DD',
-    400: '#B0B8C4',
-    500: '#9DA8B7',
-    600: '#6B7A90',
-    700: '#434D5B',
-    800: '#303740',
-    900: '#1C2025',
+  50: '#F3F6F9',
+  100: '#E5EAF2',
+  200: '#DAE2ED',
+  300: '#C7D0DD',
+  400: '#B0B8C4',
+  500: '#9DA8B7',
+  600: '#6B7A90',
+  700: '#434D5B',
+  800: '#303740',
+  900: '#1C2025',
 };
 
 const Listbox = styled('ul')(
-    ({theme}) => `
+  ({theme}) => `
   font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
@@ -77,7 +85,7 @@ const Listbox = styled('ul')(
 );
 
 const MenuItem = styled(BaseMenuItem)(
-    ({theme}) => `
+  ({theme}) => `
   list-style: none;
   padding: 8px;
   border-radius: 8px;
@@ -106,7 +114,7 @@ const MenuItem = styled(BaseMenuItem)(
 );
 
 const MenuButton = styled(BaseMenuButton)(
-    ({theme}) => `
+  ({theme}) => `
   font-family: IBM Plex Sans, sans-serif;
   font-weight: 600;
   font-size: 0.875rem;

@@ -88,9 +88,7 @@ const TableElement = ({ file }) => {
         src={file.type === "dir" ? folderIcon : fileIcon}
         alt="fileIcon"
       />
-      <div className="table-name" onClick={getInButton}>
-        <p style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: 'nowrap'}}>{file.name}</p>
-      </div>
+      <p onClick={getInButton} style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: 'nowrap', cursor: "pointer"}}>{file.name}</p>
       <div className="table-star">
         <img
           className="table-star-icon"

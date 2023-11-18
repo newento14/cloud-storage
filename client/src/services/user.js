@@ -3,10 +3,13 @@ import {ADD_STORAGE_USED, LOGOUT, SET, SET_IS_LOADING} from "../reducers/authRed
 import {ADD_FILE, DELETE_FILE, SET_FILES} from "../reducers/fileReducer";
 import {CHANGE_PROGRESS, DELETE_UPLOAD_FILE} from "../reducers/uploadReducer";
 
+const baseUrl = process.env.REACT_APP_SERVER_URL;
+
 export default class Api {
     static async Registration(form) {
         try {
-            await axios.post("https://localhost:7189/api/auth/registration", form);
+          console.log(baseUrl)
+            await axios.post(baseUrl + "/api/auth/registration", form);
         } catch (e) {
             alert(e);
         }
@@ -16,7 +19,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 const response = await axios.post(
-                    "https://localhost:7189/api/auth/login",
+                  baseUrl + "/api/auth/login",
                     form
                 );
                 dispatch({type: SET, payload: {user: response.data.user}});
@@ -32,7 +35,7 @@ export default class Api {
             dispatch({type: SET_IS_LOADING, payload: true})
             try {
                 const response = await axios.post(
-                    "https://localhost:7189/api/auth/validate",
+                  baseUrl + "/api/auth/validate",
                     {},
                     {
                         headers: {
@@ -54,7 +57,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 const response = await axios.post(
-                    "https://localhost:7189/api/files/folder",
+                  baseUrl + "/api/files/folder",
                     path,
                     {
                         headers: {
@@ -73,7 +76,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 const response = await axios.post(
-                    "https://localhost:7189/api/files/getFiles",
+                  baseUrl +"/api/files/getFiles",
                     path,
                     {
                         headers: {
@@ -91,7 +94,7 @@ export default class Api {
     static async SetStarred(id, state) {
         try {
             await axios.post(
-                "https://localhost:7189/api/files/setStarred",
+              baseUrl + "/api/files/setStarred",
                 {id: id, state: state},
                 {
                     headers: {
@@ -115,7 +118,7 @@ export default class Api {
                 formData.append("storageUsed", storageUsed);
 
                 const response = await axios.post(
-                    `https://localhost:7189/api/files/upload`,
+                  baseUrl + `/api/files/upload`,
                     formData,
                     {
                         headers: {
@@ -147,7 +150,7 @@ export default class Api {
 
     static async DownloadFile(path, fileName) {
         const response = await fetch(
-            `https://localhost:7189/api/files/download?path=${path}${fileName}`,
+          baseUrl + `/api/files/download?path=${path}${fileName}`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -170,7 +173,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 await axios.delete(
-                    `https://localhost:7189/api/files/delete?path=${path}&id=${id}`,
+                  baseUrl + `/api/files/delete?path=${path}&id=${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
