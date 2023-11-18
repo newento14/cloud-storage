@@ -7,7 +7,7 @@ const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const router = require('./routes/index')
 const path = require('path')
-const error = require('./middlewares/error')
+const error = require('./middlewares/error.middleware')
 
 const PORT = process.env.PORT || 8888
 const app = express()

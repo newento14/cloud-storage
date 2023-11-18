@@ -76,7 +76,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 const response = await axios.post(
-                  baseUrl +"/api/files/getFiles",
+                  baseUrl +"/api/files",
                     path,
                     {
                         headers: {
@@ -173,7 +173,7 @@ export default class Api {
         return async (dispatch) => {
             try {
                 await axios.delete(
-                  baseUrl + `/api/files/delete?path=${path}&id=${id}`,
+                  baseUrl + `/api/files?path=${path}&id=${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
