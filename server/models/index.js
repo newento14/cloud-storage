@@ -22,10 +22,18 @@ const File = sequelize.define('file', {
   parentId: {type: DataTypes.INTEGER}
 })
 
+const Token = sequelize.define('token', {
+  refreshToken : {type: DataTypes.STRING, require: true}
+})
+
+User.hasOne(Token)
+Token.belongsTo(User)
+
 User.hasMany(File)
 File.belongsTo(User)
 
 module.exports = {
   User,
   File,
+  Token
 }
