@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const tokenService = require('./tokenService')
 const UserDto = require('../dto/userDto')
 const {where} = require("sequelize");
+const fileService = require('./fileService')
 const serverError = require('../exception/serverError')
 
 class UserService {
@@ -13,16 +14,8 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(password, 3);
     const newUser = await User.create({username, email, password: hashPassword});
-
-    const userDto = new UserDto(newUser);
-    const tokens = tokenService.generateTokens({...userDto});
-
-    await tokenService.saveToken(newUser.id, tokens.refreshToken);
-
-    return {
-      ...tokens,
-      user: userDto,
-    }
+    await fileService.createFolderNewUser(newUser.id);
+    return new UserDto(newUser);
   }
 
   async login(email, password) {
@@ -33,7 +26,7 @@ class UserService {
 
     const isPassEquals = await bcrypt.compare(password, user.password);
     if (!isPassEquals) {
-      throw serverError.BadRequest('Неверный пароль');
+      throw serverError.BadRequest('Wrong password');
     }
 
     const userDto = new UserDto(user);
@@ -42,8 +35,8 @@ class UserService {
     await tokenService.saveToken(user.id, tokens.refreshToken);
 
     return {
-      ...tokens,
       user: userDto,
+      ...tokens,
     }
   }
 
@@ -51,12 +44,14 @@ class UserService {
     return await tokenService.removeToken(refreshToken);
   }
 
+
   async refresh(refreshToken) {
     if (!refreshToken) {
       throw serverError.UnauthorizedError();
     }
     const tokenData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
+    console.log(tokenData, tokenFromDb);
     if (!tokenData || !tokenFromDb) {
       throw serverError.UnauthorizedError();
     }
@@ -65,14 +60,7 @@ class UserService {
     const tokens = tokenService.generateTokens({...userDto});
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
-    return {...tokens, user: userDto}
-  }
-
-
-  async updateStorageSize(userId, size) {
-    const user = await User.findOne({where: {id: userId}});
-    user.storageUsed += size;
-    await user.save();
+    return {user: userDto, ...tokens}
   }
 }
 

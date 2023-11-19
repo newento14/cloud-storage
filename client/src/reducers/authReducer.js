@@ -30,7 +30,7 @@ const authReducer = (state = defaultState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    storageUsed: state.user.storageUsed + action.payload.size,
+                    storageUsed: Number(state.user.storageUsed) + Number(action.payload.size),
                 },
             };
         case SET_IS_LOADING: {

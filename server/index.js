@@ -8,14 +8,17 @@ const cookieParser = require('cookie-parser')
 const router = require('./routes/index')
 const path = require('path')
 const error = require('./middlewares/error.middleware')
+const corsMiddleware = require('./middlewares/cors.middleware')
 
 const PORT = process.env.PORT || 8888
 const app = express()
 
 app.use(express.json())
+app.use(corsMiddleware)
 app.use(fileUpload({}))
 app.use(cookieParser())
 app.use(cors({
+  credentials: true,
   origin: process.env.CLIENT_URL,
 }))
 app.use('/api', router);

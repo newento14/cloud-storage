@@ -23,7 +23,7 @@ const File = sequelize.define('file', {
 })
 
 const Token = sequelize.define('token', {
-  refreshToken : {type: DataTypes.STRING, require: true}
+  refreshToken : {type: DataTypes.STRING, maxLength:500, require: true}
 })
 
 User.hasOne(Token)

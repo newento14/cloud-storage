@@ -1,11 +1,10 @@
-const {File} = require('../models/index')
+const {File, User} = require('../models/index')
 const path = require('path')
 const serverError = require('../exception/serverError')
 const fs = require('fs')
 const uuid = require('uuid')
 const getCurrentDate = require('../utils/getCurrentDate')
 const {Sequelize, BIGINT} = require("sequelize");
-const userService = require("../services/userService")
 
 const filesPath = path.join(__dirname, '..', '/files');
 
@@ -93,7 +92,7 @@ class FileService {
       }
 
       let filePath;
-      if (pathName !== null) {
+      if (pathName !== "") {
         filePath = path.join(filesPath, userId.toString(), pathName, file.name)
       } else {
         filePath = path.join(filesPath, userId.toString(), file.name)
@@ -104,10 +103,10 @@ class FileService {
       file.mv(filePath);
 
       const type = file.name.split('.').pop();
-      await userService.updateStorageSize(userId, file.size);
+      await this.updateStorageSize(userId, file.size);
 
       let parentId = 0;
-      if (pathId !== null) {
+      if (pathId !== "") {
         const pathSplit = pathId.split('\\');
         parentId = pathSplit[pathSplit.length - 2];
       }
@@ -115,7 +114,7 @@ class FileService {
       const dbFile = new File({
         name: file.name,
         type,
-        size: file.size,
+        size: Number(file.size),
         private: true,
         link: uuid.v4(),
         date: getCurrentDate(),
@@ -141,7 +140,7 @@ class FileService {
       const fullPath = path.join(filesPath, userId.toString(), filePath);
       const file = await File.findOne({where: {id: id}});
 
-      await userService.updateStorageSize(userId, file.size * -1);
+      await this.updateStorageSize(userId, file.size * -1);
 
       if (file.type === 'dir') {
         fs.rmdirSync(fullPath);
@@ -154,6 +153,13 @@ class FileService {
       console.log(e.message);
       throw serverError.BadRequest('file does not exits')
     }
+  }
+
+  async updateStorageSize(userId, size) {
+    const user = await User.findOne({where: {id: userId}});
+    console.log(size);
+    user.storageUsed = Number(size) + Number(user.storageUsed);
+    await user.save();
   }
 }
 

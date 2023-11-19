@@ -15,6 +15,7 @@ class FileController {
   async getAllFiles(req, res, next) {
     try {
       const {pathId, pathName} = req.body;
+      console.log(pathId, pathName);
       const files = await fileService.getFiles(pathId, pathName, req.user.id);
       return res.json(files);
     } catch (e) {

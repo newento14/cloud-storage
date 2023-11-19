@@ -94,7 +94,6 @@ const Home = () => {
     }
   }, [isAuth, pathId]);
 
-  console.log("home render");
   return (
     <div>
       {isAuth && (
