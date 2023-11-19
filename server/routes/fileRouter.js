@@ -10,6 +10,7 @@ router.post('', auth, fileController.getAllFiles);
 router.delete('', auth, fileController.deleteFile);
 router.post('/setStarred', auth, fileController.setStarred);
 router.post('/upload', auth, fileController.uploadFile);
+router.get('/download', auth, fileController.downloadFile)
 
 
 module.exports = router

@@ -1,6 +1,6 @@
 import {ADD_STORAGE_USED, LOGOUT, SET, SET_IS_LOADING} from "../reducers/authReducer";
 import {ADD_FILE, DELETE_FILE, SET_FILES} from "../reducers/fileReducer";
-import {CHANGE_PROGRESS, DELETE_UPLOAD_FILE} from "../reducers/uploadReducer";
+import {ADD_UPLOAD_FILE, CHANGE_PROGRESS, DELETE_UPLOAD_FILE, SET_IS_VISIBLE} from "../reducers/uploadReducer";
 import $axios from "../api";
 
 const baseUrl = process.env.REACT_APP_SERVER_URL;
@@ -92,13 +92,14 @@ export default class Api {
       try {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("fileName", file.name);
         formData.append("pathId", pathId);
         formData.append("pathName", pathName);
         formData.append("storageSize", storageSize);
         formData.append("storageUsed", storageUsed);
 
         const response = await $axios.post(
-          `/api/files/upload`,
+          `https://localhost:7189/api/files/upload`,
           formData,
           {
             onUploadProgress: (event) => {
@@ -151,6 +152,14 @@ export default class Api {
       try {
         await $axios.delete(
           `/api/files?path=${path}&id=${id}`,
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              "Content-type": "application/json",
+              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+            }
+          },
         );
         dispatch({type: DELETE_FILE, payload: {id: id}});
         dispatch({type: ADD_STORAGE_USED, payload: {size: size * -1}});

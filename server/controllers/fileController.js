@@ -1,4 +1,6 @@
 const fileService = require('../services/fileService')
+const serverError = require('../exception/serverError')
+const fs = require('fs')
 
 class FileController {
   async createFolder(req, res, next) {
@@ -36,9 +38,26 @@ class FileController {
   async uploadFile(req, res, next) {
     try {
       const file = req.files.file
-      const {pathId, pathName, storageSize, storageUsed} = req.body;
-      const dbFile = await fileService.uploadFile(file, pathId, pathName, storageSize, storageUsed, req.user.id);
+      const {fileName, pathId, pathName, storageSize, storageUsed} = req.body;
+      const dbFile = await fileService.uploadFile(fileName, file, pathId, pathName, storageSize, storageUsed, req.user.id);
       return res.json(dbFile);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async downloadFile(req, res, next) {
+    try {
+      const {path} = req.query;
+      const fullPath = fileService.getFullPath(path, req.user.id);
+      console.log(fullPath);
+      if (fs.existsSync(fullPath)) {
+
+        return res.download(fullPath, fullPath.split('\\').pop());
+      } else {
+        throw serverError.BadRequest('download error');
+      }
+
     } catch (e) {
       next(e);
     }

@@ -82,7 +82,7 @@ class FileService {
     }
   }
 
-  async uploadFile(file, pathId, pathName, storageSize, storageUsed, userId) {
+  async uploadFile(fileName, file, pathId, pathName, storageSize, storageUsed, userId) {
     try {
       if (file === null || file.size === 0) {
         throw serverError.BadRequest('File is empty');
@@ -93,16 +93,16 @@ class FileService {
 
       let filePath;
       if (pathName !== "") {
-        filePath = path.join(filesPath, userId.toString(), pathName, file.name)
+        filePath = path.join(filesPath, userId.toString(), pathName, fileName)
       } else {
-        filePath = path.join(filesPath, userId.toString(), file.name)
+        filePath = path.join(filesPath, userId.toString(), fileName)
       }
       if (fs.existsSync(filePath)) {
         throw serverError.BadRequest('file already exist');
       }
       file.mv(filePath);
 
-      const type = file.name.split('.').pop();
+      const type = fileName.split('.').pop();
       await this.updateStorageSize(userId, file.size);
 
       let parentId = 0;
@@ -112,7 +112,7 @@ class FileService {
       }
 
       const dbFile = new File({
-        name: file.name,
+        name: fileName,
         type,
         size: Number(file.size),
         private: true,
@@ -135,12 +135,16 @@ class FileService {
     fs.mkdirSync(path.join(filesPath, userId.toString()));
   }
 
+  getFullPath(filePath, userId) {
+    return path.join(filesPath, userId.toString(), filePath);
+  }
+
   async deleteFile(filePath, id, userId) {
     try {
       const fullPath = path.join(filesPath, userId.toString(), filePath);
       const file = await File.findOne({where: {id: id}});
-
       await this.updateStorageSize(userId, file.size * -1);
+      await file.destroy();
 
       if (file.type === 'dir') {
         fs.rmdirSync(fullPath);
