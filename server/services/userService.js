@@ -68,6 +68,12 @@ class UserService {
     return {...tokens, user: userDto}
   }
 
+
+  async updateStorageSize(userId, size) {
+    const user = await User.findOne({where: {id: userId}});
+    user.storageUsed += size;
+    await user.save();
+  }
 }
 
 module.exports = new UserService();

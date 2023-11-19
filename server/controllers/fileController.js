@@ -32,10 +32,21 @@ class FileController {
     }
   }
 
+  async uploadFile(req, res, next) {
+    try {
+      const file = req.files.file
+      const {pathId, pathName, storageSize, storageUsed} = req.body;
+      const dbFile = await fileService.uploadFile(file, pathId, pathName, storageSize, storageUsed, req.user.id);
+      return res.json(dbFile);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async deleteFile(req, res, next) {
     try {
       const {path, id} = req.query;
-      const file = await fileService.deleteFile(path, id);
+      const file = await fileService.deleteFile(path, id, req.user.id);
       return res.json(file);
     } catch (e) {
       next(e);
